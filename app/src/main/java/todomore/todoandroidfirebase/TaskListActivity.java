@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,8 +38,7 @@ import java.util.List;
 public class TaskListActivity extends AppCompatActivity {
 
     private final static String TAG = "TaskListActivity";
-	private final static String BASE_URL = "https://YOUR_PROJECT.firebaseio.com/";
-    /** Whether or not the activity is in two-pane mode, i.e. running on a wide device.  */
+	/** Whether or not the activity is in two-pane mode, i.e. running on a wide device.  */
     private boolean mTwoPane;
     /** The database */
     private Firebase mDatabase;
@@ -61,16 +59,19 @@ public class TaskListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_task_list);
 
         Firebase.setAndroidContext(this);
-        mDatabase = new Firebase(BASE_URL + mCurrentUser + "/tasks/");
+        String baseUrl = ((ApplicationClass) getApplication()).getBaseUrl() + mCurrentUser + "/tasks/";
+        Log.d(TAG, "Firebase base is " + baseUrl);
+        mDatabase = new Firebase(baseUrl);
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 System.out.println("There are " + snapshot.getChildrenCount() + " Todo Tasks(s)");
-                TaskHolder.sTasks.clear();
+                ApplicationClass.sTasks.clear();
                 for (DataSnapshot dnlSnapshot: snapshot.getChildren()) {
                     Task task = dnlSnapshot.getValue(Task.class);
                     System.out.println(task.getName() + " - " + task.getDescription());
-                    TaskHolder.sTasks.add(task);
+                    String jsonKey = dnlSnapshot.getKey();
+                    ApplicationClass.sTasks.add(new KeyValueHolder<>(jsonKey, task));
                 }
                 mAdapter.notifyDataSetChanged();
             }
@@ -106,7 +107,7 @@ public class TaskListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        mAdapter = new SimpleItemRecyclerViewAdapter(TaskHolder.sTasks);
+        mAdapter = new SimpleItemRecyclerViewAdapter(ApplicationClass.sTasks);
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -117,11 +118,12 @@ public class TaskListActivity extends AppCompatActivity {
 	 */
 	public void addItem(View v) {
 		String name = mAddTF.getText().toString();
-		Log.d(TAG, "addItem: " + name);
 		if (name == null || name.isEmpty()) {
 			Toast.makeText(this, "Text required!", Toast.LENGTH_SHORT).show();
 			return;
 		}
+
+        Log.d(TAG, "addItem: trying to add " + name);
 
 		/* Do the work here! Create a Task... */
 		Task t = new Task();
@@ -131,15 +133,21 @@ public class TaskListActivity extends AppCompatActivity {
 		t.setStatus(Status.NEW);
 
 		/* NOW: send it to the cloud... */
-        mDatabase.push().setValue(t);
+        Firebase push = mDatabase.push();
+        push.setValue(t);
+        Log.d(TAG, "Local key for pushed Task is " + push.getKey());
+
+        // We don't have to add it to the list: our list listener will get an Event soon...
+
+        mAddTF.setText("");
 	}
 
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final List<Task> mValues;
+        private final List<KeyValueHolder<String,Task>> mValues;
 
-        public SimpleItemRecyclerViewAdapter(List<Task> items) {
+        public SimpleItemRecyclerViewAdapter(List<KeyValueHolder<String,Task>> items) {
             mValues = items;
         }
 
@@ -152,9 +160,8 @@ public class TaskListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mItem = mValues.get(position);
-            holder.mIdView.setText(Long.toString(mValues.get(position).getId()));
-            holder.mContentView.setText(mValues.get(position).getName());
+            holder.mItem = mValues.get(position).value;
+            holder.mContentView.setText(mValues.get(position).value.getName());
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override

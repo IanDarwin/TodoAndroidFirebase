@@ -6,4 +6,9 @@ package todomore.todoandroidfirebase;
 public class KeyValueHolder<K,V> {
     K key;
     V value;
+
+    public KeyValueHolder(K key, V value) {
+        this.key = key;
+        this.value = value;
+    }
 }

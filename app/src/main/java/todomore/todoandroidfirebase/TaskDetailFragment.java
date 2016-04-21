@@ -44,7 +44,8 @@ public class TaskDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = TaskHolder.sTasks.get((int)Long.parseLong(getArguments().getString(ARG_ITEM_ID)));
+            int id = (int) Long.parseLong(getArguments().getString(ARG_ITEM_ID));
+            mItem = ApplicationClass.sTasks.get(id).value;
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);

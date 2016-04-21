@@ -11,10 +11,11 @@ import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
 /**
- * An activity representing a single Task detail screen. This
- * activity is only used on narrow devices. On tablet-size devices,
+ * An activity representing a single Task detail screen.
+ * Mainly a holder for a TaskDetailFragment, and
+ * is only used on narrow devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
- * in a {@link TaskListActivity}.
+ * in the {@link TaskListActivity}.
  */
 public class TaskDetailActivity extends AppCompatActivity {
 
