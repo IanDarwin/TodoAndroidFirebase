@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TodoAndroidFirebase</string>
+    <string name="title_task_detail">Task Detail</string>
+    <string name="add_item">Item to add</string>
+    <string name="add_button">Add</string>
+	<string name="priority">Priority</string>
+</resources>
