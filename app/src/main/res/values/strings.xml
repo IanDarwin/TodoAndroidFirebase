@@ -3,5 +3,6 @@
     <string name="title_task_detail">Task Detail</string>
     <string name="add_item">Item to add</string>
     <string name="add_button">Add</string>
-	<string name="priority">Priority</string>
+    <string name="priority">Priority</string>
+    <string name="title_activity_task_edit">TaskEditActivity</string>
 </resources>

@@ -3,7 +3,6 @@ package todomore.todoandroidfirebase;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
@@ -26,12 +25,15 @@ public class TaskDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
+        final int intExtra = getIntent().getIntExtra(TaskDetailFragment.ARG_ITEM_INDEX, 0);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "EDIT", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(TaskDetailActivity.this, TaskEditActivity.class);
+                intent.putExtra(TaskDetailFragment.ARG_ITEM_INDEX, intExtra);
+                startActivity(intent);
             }
         });
 
@@ -54,8 +56,9 @@ public class TaskDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(TaskDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(TaskDetailFragment.ARG_ITEM_ID));
+
+            arguments.putInt(TaskDetailFragment.ARG_ITEM_INDEX,
+                    intExtra);
             TaskDetailFragment fragment = new TaskDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

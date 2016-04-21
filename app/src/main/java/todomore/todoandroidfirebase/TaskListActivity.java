@@ -40,10 +40,8 @@ public class TaskListActivity extends AppCompatActivity {
     private final static String TAG = "TaskListActivity";
 	/** Whether or not the activity is in two-pane mode, i.e. running on a wide device.  */
     private boolean mTwoPane;
-    /** The database */
-    private Firebase mDatabase;
 	/** The ID of the current user */
-    private String mCurrentUser = "idarwin";
+    static String mCurrentUser = "idarwin";
 	/** The View Adapter */
     private SimpleItemRecyclerViewAdapter mAdapter;
 
@@ -58,11 +56,8 @@ public class TaskListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
 
-        Firebase.setAndroidContext(this);
-        String baseUrl = ((ApplicationClass) getApplication()).getBaseUrl() + mCurrentUser + "/tasks/";
-        Log.d(TAG, "Firebase base is " + baseUrl);
-        mDatabase = new Firebase(baseUrl);
-        mDatabase.addValueEventListener(new ValueEventListener() {
+
+        ((ApplicationClass)getApplication()).getDatabase().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 System.out.println("There are " + snapshot.getChildrenCount() + " Todo Tasks(s)");
@@ -133,12 +128,13 @@ public class TaskListActivity extends AppCompatActivity {
 		t.setStatus(Status.NEW);
 
 		/* NOW: send it to the cloud... */
-        Firebase push = mDatabase.push();
+        Firebase push = ((ApplicationClass)getApplication()).getDatabase().push();
         push.setValue(t);
         Log.d(TAG, "Local key for pushed Task is " + push.getKey());
 
         // We don't have to add it to the list: our list listener will get an Event soon...
 
+        // ... but if we get here, it's been fed into Fire so we don't need to keep it.
         mAddTF.setText("");
 	}
 
@@ -159,7 +155,7 @@ public class TaskListActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
             holder.mItem = mValues.get(position).value;
             holder.mContentView.setText(mValues.get(position).value.getName());
 
@@ -168,7 +164,7 @@ public class TaskListActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
-                        arguments.putString(TaskDetailFragment.ARG_ITEM_ID, Long.toString(holder.mItem.getId()));
+                        arguments.putInt(TaskDetailFragment.ARG_ITEM_INDEX, position);
                         TaskDetailFragment fragment = new TaskDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
@@ -177,7 +173,7 @@ public class TaskListActivity extends AppCompatActivity {
                     } else {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, TaskDetailActivity.class);
-                        intent.putExtra(TaskDetailFragment.ARG_ITEM_ID, Long.toString(holder.mItem.getId()));
+                        intent.putExtra(TaskDetailFragment.ARG_ITEM_INDEX, position);
 
                         context.startActivity(intent);
                     }

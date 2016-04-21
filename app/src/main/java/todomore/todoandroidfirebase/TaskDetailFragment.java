@@ -22,12 +22,12 @@ public class TaskDetailFragment extends Fragment {
      * The fragment argument representing the item ID that this fragment
      * represents.
      */
-    public static final String ARG_ITEM_ID = "item_id";
+    public static final String ARG_ITEM_INDEX = "item_id";
 
     /**
-     * The dummy content this fragment is presenting.
+     * The Task this fragment is presenting.
      */
-    private Task mItem;
+    private Task mTask;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -40,17 +40,17 @@ public class TaskDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
+        if (getArguments().containsKey(ARG_ITEM_INDEX)) {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            int id = (int) Long.parseLong(getArguments().getString(ARG_ITEM_ID));
-            mItem = ApplicationClass.sTasks.get(id).value;
+            int id = getArguments().getInt(ARG_ITEM_INDEX, 0);
+            mTask = ApplicationClass.sTasks.get(id).value;
 
-            Activity activity = this.getActivity();
+            Activity activity = getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.getName());
+                appBarLayout.setTitle(mTask.getName());
             }
         }
     }
@@ -60,9 +60,9 @@ public class TaskDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.task_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.task_detail)).setText(mItem.getDescription());
+        // Show the Task description as text in a TextView.
+        if (mTask != null) {
+            ((TextView) rootView.findViewById(R.id.task_detail)).setText(mTask.getDescription());
         }
 
         return rootView;

@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.util.Log;
 
 import com.darwinsys.todo.model.Task;
+import com.firebase.client.Firebase;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -19,6 +20,16 @@ public class ApplicationClass extends Application {
 	 * Just a cheesy weay to share the list of Tasks
 	 */
     public static List<KeyValueHolder<String,Task>> sTasks = new ArrayList<>();
+	private Firebase mDatabase;
+
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		Firebase.setAndroidContext(this);
+		String baseUrl = getBaseUrl() + TaskListActivity.mCurrentUser + "/tasks/";
+		Log.d(TAG, "Firebase base URL is " + baseUrl);
+		mDatabase = new Firebase(baseUrl);
+	}
 
 	/** The base URL */
 	private String mBaseUrl;
@@ -28,6 +39,10 @@ public class ApplicationClass extends Application {
 			loadKeys();
 		}
 		return mBaseUrl;
+	}
+
+	public Firebase getDatabase() {
+		return mDatabase;
 	}
 
 	/**
