@@ -1,4 +1,4 @@
-package androidfirebase.todomore.todoandroidfirebase;
+package todomore.todoandroidfirebase;
 
 import org.junit.Test;
 

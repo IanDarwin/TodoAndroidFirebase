@@ -1,4 +1,4 @@
-package androidfirebase.todomore.todoandroidfirebase;
+package todomore.todoandroidfirebase;
 
 import com.darwinsys.todo.model.Task;
 

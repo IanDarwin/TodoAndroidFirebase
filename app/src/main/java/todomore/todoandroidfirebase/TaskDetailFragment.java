@@ -1,4 +1,4 @@
-package androidfirebase.todomore.todoandroidfirebase;
+package todomore.todoandroidfirebase;
 
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;

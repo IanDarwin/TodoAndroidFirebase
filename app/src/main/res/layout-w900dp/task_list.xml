@@ -9,7 +9,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context="androidfirebase.todomore.todoandroidfirebase.TaskListActivity">
+    tools:context="todomore.todoandroidfirebase.TaskListActivity">
 
     <!--
     This layout is a two-pane layout for the Tasks
