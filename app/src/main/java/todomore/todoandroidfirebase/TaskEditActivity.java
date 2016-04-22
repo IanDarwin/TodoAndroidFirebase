@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.darwinsys.todo.model.Task;
 
@@ -23,6 +24,15 @@ public class TaskEditActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // If the user just deleted an item and that event hasn't yet made it to fhe main view,
+        // they could crash the app by trying to edit it again. Block that, before setContentView().
+        int id = getIntent().getIntExtra(TaskDetailFragment.ARG_ITEM_INDEX, 0);
+        if (id < 0 || id >= ApplicationClass.sTasks.size()) {
+            Toast.makeText(this, "Unable to edit that item", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
         setContentView(R.layout.activity_task_edit);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -38,7 +48,6 @@ public class TaskEditActivity extends AppCompatActivity {
             }
         });
 
-        int id = getIntent().getIntExtra(TaskDetailFragment.ARG_ITEM_INDEX, 0);
         KeyValueHolder<String, Task> taskWrapper = ApplicationClass.sTasks.get(id);
         mTask = taskWrapper.value;
         mKey = taskWrapper.key;
