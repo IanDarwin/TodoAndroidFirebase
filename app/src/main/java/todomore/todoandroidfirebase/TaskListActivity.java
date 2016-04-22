@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.darwinsys.todo.model.Priority;
 import com.darwinsys.todo.model.Status;
 import com.darwinsys.todo.model.Task;
@@ -72,7 +73,7 @@ public class TaskListActivity extends AppCompatActivity {
                 mAdapter.notifyDataSetChanged();
             }
             @Override public void onCancelled(FirebaseError error) {
-                // Empty
+                Toast.makeText(getBaseContext(), "Task read cancelled!! " + error, Toast.LENGTH_LONG).show();
             }
         });
 
