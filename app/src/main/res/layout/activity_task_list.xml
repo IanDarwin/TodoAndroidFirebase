@@ -34,6 +34,7 @@
 		android:prompt="@string/priority"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
+		android:entries="@array/priorities_array"
 		/>
 	<Button
 		android:layout_width="fill_parent"

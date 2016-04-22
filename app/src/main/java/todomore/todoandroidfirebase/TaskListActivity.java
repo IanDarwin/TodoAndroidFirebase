@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -80,12 +81,7 @@ public class TaskListActivity extends AppCompatActivity {
         toolbar.setTitle(getTitle());
 
         mAddTF = (EditText) findViewById(R.id.addTF);
-        ArrayAdapter<CharSequence> adapter =
-                ArrayAdapter.createFromResource(this, R.array.priorities_array,
-                        android.R.layout.simple_spinner_item);
 		prioSpinner = (Spinner) findViewById(R.id.prioSpinner);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		prioSpinner.setAdapter(adapter);
 		prioSpinner.setSelection(Priority.High.ordinal());
 
         View recyclerView = findViewById(R.id.task_list);
@@ -99,6 +95,12 @@ public class TaskListActivity extends AppCompatActivity {
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {

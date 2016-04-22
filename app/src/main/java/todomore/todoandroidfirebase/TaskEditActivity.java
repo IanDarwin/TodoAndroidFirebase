@@ -48,12 +48,22 @@ public class TaskEditActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_edit, menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        switch(item.getItemId()) {
+            case R.id.save_menuitem:
+                doSave();
+                return true;
+            case R.id.delete_menuitem:
+                doDelete();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     void doSave() {
@@ -62,6 +72,12 @@ public class TaskEditActivity extends AppCompatActivity {
 
         ((ApplicationClass)getApplication()).getDatabase().child(mKey).setValue(mTask);
 
+        finish();
+    }
+
+    void doDelete() {
+        Log.d(TAG, "Removing " + mTask);
+        ((ApplicationClass)getApplication()).getDatabase().child(mKey).removeValue();
         finish();
     }
 
