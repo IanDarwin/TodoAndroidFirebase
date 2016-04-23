@@ -27,6 +27,8 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -70,6 +72,7 @@ public class TaskListActivity extends AppCompatActivity {
                     String jsonKey = dnlSnapshot.getKey();
                     ApplicationClass.sTasks.add(new KeyValueHolder<>(jsonKey, task));
                 }
+                Collections.sort(ApplicationClass.sTasks, tasksComparator);
                 mAdapter.notifyDataSetChanged();
             }
             @Override public void onCancelled(FirebaseError error) {
@@ -140,6 +143,28 @@ public class TaskListActivity extends AppCompatActivity {
         // ... but if we get here, it's been fed into Fire so we don't need to keep it.
         mAddTF.setText("");
 	}
+
+
+    /**
+     * Comparator is needed because the the Firebase sorting is so flamin' basic!
+     * "Queries can only order by one key at a time. Calling orderByChild()
+     * multiple times on the same query throws an error."
+     * So we give up and use a Comparator.
+     * Sort first by priority DESC, then by name ASC.
+     */
+    public static final Comparator<KeyValueHolder<String,Task>> tasksComparator = new Comparator<KeyValueHolder<String,Task>>() {
+
+        @Override
+        public int compare(KeyValueHolder<String,Task> thing1, KeyValueHolder<String,Task> thing2) {
+            Task t1 = thing2.value;
+            Task t2 = thing2.value;
+            if (t1.getPriority().ordinal() < t2.getPriority().ordinal())
+                return +1;
+            if (t1.getPriority().ordinal() > t2.getPriority().ordinal())
+                return -1;
+            return t1.getName().compareTo(t2.getName());
+        }
+    };
 
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
