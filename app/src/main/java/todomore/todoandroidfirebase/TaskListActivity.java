@@ -156,12 +156,14 @@ public class TaskListActivity extends AppCompatActivity {
 
         @Override
         public int compare(KeyValueHolder<String,Task> thing1, KeyValueHolder<String,Task> thing2) {
-            Task t1 = thing2.value;
+            Task t1 = thing1.value;
             Task t2 = thing2.value;
+            // Compare by priority, in descending order
             if (t1.getPriority().ordinal() < t2.getPriority().ordinal())
-                return +1;
-            if (t1.getPriority().ordinal() > t2.getPriority().ordinal())
                 return -1;
+            if (t1.getPriority().ordinal() > t2.getPriority().ordinal())
+                return +1;
+            // Priorities are the same, compare on name.
             return t1.getName().compareTo(t2.getName());
         }
     };
@@ -186,6 +188,7 @@ public class TaskListActivity extends AppCompatActivity {
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             holder.mItem = mValues.get(position).value;
             holder.mContentView.setText(mValues.get(position).value.getName());
+			holder.mPrioView.setText(mValues.get(position).value.getPriority().toString());
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -216,14 +219,14 @@ public class TaskListActivity extends AppCompatActivity {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             public final View mView;
-            public final TextView mIdView;
+            public final TextView mPrioView;
             public final TextView mContentView;
             public Task mItem;
 
             public ViewHolder(View view) {
                 super(view);
                 mView = view;
-                mIdView = (TextView) view.findViewById(R.id.id);
+                mPrioView = (TextView) view.findViewById(R.id.id);
                 mContentView = (TextView) view.findViewById(R.id.content);
             }
 
