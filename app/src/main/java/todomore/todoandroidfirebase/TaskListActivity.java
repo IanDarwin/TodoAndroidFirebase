@@ -66,7 +66,6 @@ public class TaskListActivity extends AppCompatActivity {
                 ApplicationClass.sTasks.clear();
                 for (DataSnapshot dnlSnapshot: snapshot.getChildren()) {
                     Task task = dnlSnapshot.getValue(Task.class);
-                    System.out.println(task.getName() + " - " + task.getDescription());
                     String jsonKey = dnlSnapshot.getKey();
                     ApplicationClass.sTasks.add(new KeyValueHolder<>(jsonKey, task));
                 }
