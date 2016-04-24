@@ -3,7 +3,6 @@ package todomore.todoandroidfirebase;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -90,7 +88,8 @@ public class TaskListActivity extends AppCompatActivity {
 
         View recyclerView = findViewById(R.id.task_list);
         assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
+        mAdapter = new SimpleItemRecyclerViewAdapter(ApplicationClass.sTasks);
+        ((RecyclerView) recyclerView).setAdapter(mAdapter);
 
         if (findViewById(R.id.task_detail_container) != null) {
             // The detail container view will be present only in the
@@ -107,19 +106,14 @@ public class TaskListActivity extends AppCompatActivity {
         return true;
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        mAdapter = new SimpleItemRecyclerViewAdapter(ApplicationClass.sTasks);
-        recyclerView.setAdapter(mAdapter);
-    }
-
-	/** 
+    /**
 	 * Adds a new item to the list, from the main screen.
 	 * Called from the View when the Add button is pressed;
 	 * registered via onClick= so no Listener code
 	 */
 	public void addItem(View v) {
 		String name = mAddTF.getText().toString();
-		if (name == null || name.isEmpty()) {
+		if (name.isEmpty()) {
 			Toast.makeText(this, "Text required!", Toast.LENGTH_SHORT).show();
 			return;
 		}
@@ -187,8 +181,8 @@ public class TaskListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             holder.mItem = mValues.get(position).value;
-            holder.mContentView.setText(mValues.get(position).value.getName());
-			holder.mPrioView.setText(mValues.get(position).value.getPriority().toString());
+            holder.mContentView.setText(holder.mItem.getName());
+			holder.mPrioView.setText(holder.mItem.getPriority().toString());
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
