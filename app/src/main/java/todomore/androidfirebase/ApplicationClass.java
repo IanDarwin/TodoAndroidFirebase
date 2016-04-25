@@ -1,4 +1,4 @@
-package todomore.todoandroidfirebase;
+package todomore.androidfirebase;
 
 import android.app.Application;
 import android.content.res.Resources;
@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import todomore.androidfirebase.R;
 
 public class ApplicationClass extends Application {
 

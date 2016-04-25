@@ -1,4 +1,4 @@
-package todomore.todoandroidfirebase;
+package todomore.androidfirebase;
 
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.darwinsys.todo.model.Task;
+
+import todomore.androidfirebase.R;
 
 /**
  * A fragment representing a single Task detail screen.

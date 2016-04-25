@@ -1,8 +1,7 @@
-package todomore.todoandroidfirebase;
+package todomore.androidfirebase;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,6 +16,8 @@ import android.widget.Toast;
 import com.darwinsys.todo.model.Priority;
 import com.darwinsys.todo.model.Status;
 import com.darwinsys.todo.model.Task;
+
+import todomore.androidfirebase.R;
 
 public class TaskEditActivity extends AppCompatActivity {
 

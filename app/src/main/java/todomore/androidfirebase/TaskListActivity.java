@@ -1,4 +1,4 @@
-package todomore.todoandroidfirebase;
+package todomore.androidfirebase;
 
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +28,8 @@ import com.firebase.client.ValueEventListener;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import todomore.androidfirebase.R;
 
 /**
  * The Main Activity of this application; displays a list of Tasks.

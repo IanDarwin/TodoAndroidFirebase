@@ -1,4 +1,4 @@
-package todomore.todoandroidfirebase;
+package todomore.androidfirebase;
 
 /**
  * Created by ian on 2016-04-21.
