@@ -9,9 +9,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.darwinsys.todo.model.Priority;
+import com.darwinsys.todo.model.Status;
 import com.darwinsys.todo.model.Task;
 
 public class TaskEditActivity extends AppCompatActivity {
@@ -20,6 +24,7 @@ public class TaskEditActivity extends AppCompatActivity {
     private Task mTask;
     private String mKey;
     private EditText nameTF, descrTF;
+    private Spinner prioSpinner, statusSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,15 @@ public class TaskEditActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         nameTF = (EditText) findViewById(R.id.nameEditText);
         descrTF = (EditText) findViewById(R.id.descrEditText);
+        prioSpinner = (Spinner) findViewById(R.id.prioSpinner);
+        ArrayAdapter<Priority> adapter2 = new ArrayAdapter<Priority>(
+                this, android.R.layout.simple_spinner_item, Priority.values());
+        prioSpinner.setAdapter(adapter2);
+        statusSpinner = (Spinner) findViewById(R.id.statusSpinner);
+        ArrayAdapter<Status> adapter3 = new ArrayAdapter<Status>(
+                this, android.R.layout.simple_spinner_item, Status.values());
+        statusSpinner.setAdapter(adapter3);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -77,9 +91,8 @@ public class TaskEditActivity extends AppCompatActivity {
     void doSave() {
         viewToModel();
         Log.d(TAG, "Saving " + mTask);
-
+        mTask.setModified(System.currentTimeMillis());
         ((ApplicationClass)getApplication()).getDatabase().child(mKey).setValue(mTask);
-
         finish();
     }
 
@@ -92,10 +105,14 @@ public class TaskEditActivity extends AppCompatActivity {
     void modelToView() {
         nameTF.setText(mTask.getName());
         descrTF.setText(mTask.getDescription());
+        prioSpinner.setSelection(mTask.getPriority().ordinal());
+        statusSpinner.setSelection(mTask.getStatus().ordinal());
     }
 
     void viewToModel() {
         mTask.setName(nameTF.getText().toString());
         mTask.setDescription(descrTF.getText().toString());
+        mTask.setPriority(Priority.values()[prioSpinner.getSelectedItemPosition()]);
+        mTask.setStatus(Status.values()[statusSpinner.getSelectedItemPosition()]);
     }
 }

@@ -18,6 +18,8 @@ import android.view.MenuItem;
  */
 public class TaskDetailActivity extends AppCompatActivity {
 
+    private final int REQUEST_CODE_EDIT = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +35,7 @@ public class TaskDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(TaskDetailActivity.this, TaskEditActivity.class);
                 intent.putExtra(TaskDetailFragment.ARG_ITEM_INDEX, intExtra);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_EDIT);
             }
         });
 
@@ -81,5 +83,20 @@ public class TaskDetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(requestCode) {
+            case REQUEST_CODE_EDIT:
+                if (resultCode == RESULT_OK) {
+                    // Editing completed OK, close the Detail, drive user back to main screen
+                    finish();
+                }
+                // Editing failed, leave user on this page to try again if they wish
+                break;
+            default:
+                throw new IllegalStateException("Unexpected requestCode in onActivityResult()");
+        }
     }
 }

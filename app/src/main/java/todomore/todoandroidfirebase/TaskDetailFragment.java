@@ -30,8 +30,7 @@ public class TaskDetailFragment extends Fragment {
     private Task mTask;
 
     /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
+     * Mandatory empty constructor.
      */
     public TaskDetailFragment() {
     }
@@ -41,9 +40,7 @@ public class TaskDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_INDEX)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
+            // Load the content specified by the fragment arguments.
             int id = getArguments().getInt(ARG_ITEM_INDEX, 0);
             mTask = ApplicationClass.sTasks.get(id).value;
 
