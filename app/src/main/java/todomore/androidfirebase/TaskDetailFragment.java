@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.darwinsys.todo.model.Context;
+import com.darwinsys.todo.model.Project;
 import com.darwinsys.todo.model.Task;
 
 import todomore.androidfirebase.R;
@@ -65,6 +67,13 @@ public class TaskDetailFragment extends Fragment {
             ((TextView) rootView.findViewById(R.id.task_detail_description)).setText(mTask.getDescription());
             ((TextView) rootView.findViewById(R.id.task_detail_priority)).setText(mTask.getPriority().toString());
             ((TextView) rootView.findViewById(R.id.task_detail_status)).setText(mTask.getStatus().toString());
+            final Context context = mTask.getContext();
+            if (context != null)
+                ((TextView) rootView.findViewById(R.id.task_detail_context)).setText(context.toString());
+            final Project project = mTask.getProject();
+            if (project != null)
+                ((TextView) rootView.findViewById(R.id.task_detail_project)).setText(project.toString());
+            ((TextView) rootView.findViewById(R.id.task_detail_created)).setText(mTask.getCreationDate().toString());
         }
 
         return rootView;
