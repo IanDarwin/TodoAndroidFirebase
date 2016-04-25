@@ -46,11 +46,6 @@ public class TaskDetailFragment extends Fragment {
             int id = getArguments().getInt(ARG_ITEM_INDEX, 0);
             mTask = ApplicationClass.sTasks.get(id).value;
 
-            Activity activity = getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(mTask.getName());
-            }
         }
     }
 
@@ -59,9 +54,17 @@ public class TaskDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.task_detail, container, false);
 
+        Activity activity = getActivity();
+        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+        if (appBarLayout != null) {
+            appBarLayout.setTitle(mTask.getName());
+        }
+
         // Show the Task description as text in a TextView.
         if (mTask != null) {
-            ((TextView) rootView.findViewById(R.id.task_detail)).setText(mTask.getDescription());
+            ((TextView) rootView.findViewById(R.id.task_detail_description)).setText(mTask.getDescription());
+            ((TextView) rootView.findViewById(R.id.task_detail_priority)).setText(mTask.getPriority().toString());
+            ((TextView) rootView.findViewById(R.id.task_detail_status)).setText(mTask.getStatus().toString());
         }
 
         return rootView;
