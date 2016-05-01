@@ -2,4 +2,5 @@
 
 This is a rethinking of the TodoMore application; instead of using a local SQLite database and
 a Sync Adapter, we build the whole thing using Google's Firebase (https://firebase.com).
-Uses our existing data model, but is not at present miscible with our existing REST service.
+Uses our existing data model, but is not at present inter-operable with our existing REST service
+nor with any of the other TodoMore modules.
