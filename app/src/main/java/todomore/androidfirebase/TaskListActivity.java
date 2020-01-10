@@ -34,7 +34,7 @@ import todomore.androidfirebase.R;
 /**
  * The Main Activity of this application; displays a list of Tasks.
  * This activity has different presentations for handset and tablet-size devices.
- * On handsets, the activity presents a list of items, which when touched,
+ * On phones, the activity presents a list of items, which when tapped,
  * lead to a {@link TaskDetailActivity} representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
@@ -42,6 +42,7 @@ import todomore.androidfirebase.R;
 public class TaskListActivity extends AppCompatActivity {
 
     private final static String TAG = "TaskListActivity";
+
 	/** Whether or not the activity is in two-pane mode, i.e. running on a wide device.  */
     private boolean mTwoPane;
 	/** The ID of the current user */
