@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TodoAndroidFirebase.iml" filepath="$PROJECT_DIR$/TodoAndroidFirebase.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ToDoMore-Android-Firebase.iml" filepath="$PROJECT_DIR$/.idea/modules/ToDoMore-Android-Firebase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ToDoMore-Android-Firebase.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ToDoMore-Android-Firebase.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ToDoMore-Android-Firebase.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ToDoMore-Android-Firebase.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ToDoMore-Android-Firebase.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ToDoMore-Android-Firebase.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ToDoMore-Android-Firebase.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ToDoMore-Android-Firebase.app.unitTest.iml" />
     </modules>
   </component>
 </project>
